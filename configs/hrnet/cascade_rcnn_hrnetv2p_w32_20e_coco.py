@@ -35,5 +35,6 @@ model = dict(
         in_channels=[32, 64, 128, 256],
         out_channels=256))
 # learning policy
-lr_config = dict(step=[16, 19])
-total_epochs = 20
+lr_config = dict(step=[8,11])
+#total_epochs = 150
+total_epochs = 200

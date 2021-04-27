@@ -7,7 +7,7 @@ model = dict(
         depth=50,
         num_stages=4,
         out_indices=(0, 1, 2, 3),
-        frozen_stages=1,
+        frozen_stages=1,     # 冻结的stage数量，即该stage不更新参数，-1表示所有的stage都更新参数
         norm_cfg=dict(type='BN', requires_grad=True),
         norm_eval=True,
         style='pytorch'),
@@ -20,7 +20,7 @@ model = dict(
         type='RPNHead',
         in_channels=256,
         feat_channels=256,
-        anchor_generator=dict(
+        anchor_generator=dict(  # 生成anchor的配置
             type='AnchorGenerator',
             scales=[8],
             ratios=[0.5, 1.0, 2.0],
@@ -31,6 +31,7 @@ model = dict(
             target_stds=[1.0, 1.0, 1.0, 1.0]),
         loss_cls=dict(
             type='CrossEntropyLoss', use_sigmoid=True, loss_weight=1.0),
+#         loss_cls=dict(type='FocalLoss', use_sigmoid=True),
         loss_bbox=dict(type='SmoothL1Loss', beta=1.0 / 9.0, loss_weight=1.0)),
     roi_head=dict(
         type='CascadeRoIHead',
@@ -47,7 +48,8 @@ model = dict(
                 in_channels=256,
                 fc_out_channels=1024,
                 roi_feat_size=7,
-                num_classes=80,
+#                 num_classes=80,
+                num_classes=13,
                 bbox_coder=dict(
                     type='DeltaXYWHBBoxCoder',
                     target_means=[0., 0., 0., 0.],
@@ -57,6 +59,7 @@ model = dict(
                     type='CrossEntropyLoss',
                     use_sigmoid=False,
                     loss_weight=1.0),
+#                 loss_cls=dict(type='FocalLoss', use_sigmoid=False),
                 loss_bbox=dict(type='SmoothL1Loss', beta=1.0,
                                loss_weight=1.0)),
             dict(
@@ -64,7 +67,8 @@ model = dict(
                 in_channels=256,
                 fc_out_channels=1024,
                 roi_feat_size=7,
-                num_classes=80,
+#                 num_classes=80,
+                num_classes=13,
                 bbox_coder=dict(
                     type='DeltaXYWHBBoxCoder',
                     target_means=[0., 0., 0., 0.],
@@ -74,6 +78,7 @@ model = dict(
                     type='CrossEntropyLoss',
                     use_sigmoid=False,
                     loss_weight=1.0),
+#                 loss_cls=dict(type='FocalLoss', use_sigmoid=False),
                 loss_bbox=dict(type='SmoothL1Loss', beta=1.0,
                                loss_weight=1.0)),
             dict(
@@ -81,7 +86,8 @@ model = dict(
                 in_channels=256,
                 fc_out_channels=1024,
                 roi_feat_size=7,
-                num_classes=80,
+#                 num_classes=80,
+                num_classes=13,
                 bbox_coder=dict(
                     type='DeltaXYWHBBoxCoder',
                     target_means=[0., 0., 0., 0.],
@@ -91,6 +97,7 @@ model = dict(
                     type='CrossEntropyLoss',
                     use_sigmoid=False,
                     loss_weight=1.0),
+#                 loss_cls=dict(type='FocalLoss', use_sigmoid=False),
                 loss_bbox=dict(type='SmoothL1Loss', beta=1.0, loss_weight=1.0))
         ]))
 # model training and testing settings
@@ -175,9 +182,11 @@ test_cfg = dict(
         nms_pre=1000,
         nms_post=1000,
         max_num=1000,
-        nms_thr=0.7,
+#         nms_thr=0.7,
+        nms_thr=0.5,# nms阈值 去除冗余框
         min_bbox_size=0),
     rcnn=dict(
-        score_thr=0.05,
-        nms=dict(type='nms', iou_threshold=0.5),
+        score_thr=0.5,
+#         nms=dict(type='nms', iou_threshold=0.5),
+        nms=dict(type='nms', iou_threshold=0.4),
         max_per_img=100))

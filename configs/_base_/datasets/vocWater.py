@@ -7,11 +7,9 @@ train_pipeline = [
     dict(type='LoadImageFromFile', to_float32=True),
     dict(type='LoadAnnotations', with_bbox=True),
 
-    dict(type='Resize', img_scale=(400,400), keep_ratio=True),
-    
-#     dict(type='Resize', img_scale=(1200, 800), keep_ratio=False),
+    dict(type='Resize', img_scale=(600,1000), keep_ratio=True),
     dict(type='RandomFlip', flip_ratio=0.5),
-        # Added
+    # Added
     #数据增强
     dict(type='PhotoMetricDistortion'),
     dict(type='Normalize', **img_norm_cfg),
@@ -24,7 +22,7 @@ test_pipeline = [
     dict(
         type='MultiScaleFlipAug',
 
-        img_scale=(400,400),
+        img_scale=(600,1000),
 
         flip=False,
         transforms=[
@@ -37,8 +35,8 @@ test_pipeline = [
         ])
 ]
 data = dict(
-    samples_per_gpu=8,
-    workers_per_gpu=2,
+    samples_per_gpu=2, #每个gpu的图像的数目，类似于每个gpu的batchsize
+    workers_per_gpu=2, #每个gpu的线程数目
 #     samples_per_gpu=2,
 #     workers_per_gpu=2,
     train=dict(

@@ -6,12 +6,20 @@ def wider_face_classes():
 
 
 def voc_classes():
+#     return [
+#         'aeroplane', 'bicycle', 'bird', 'boat', 'bottle', 'bus', 'car', 'cat',
+#         'chair', 'cow', 'diningtable', 'dog', 'horse', 'motorbike', 'person',
+#         'pottedplant', 'sheep', 'sofa', 'train', 'tvmonitor'
+#     ]
     return [
-        'aeroplane', 'bicycle', 'bird', 'boat', 'bottle', 'bus', 'car', 'cat',
-        'chair', 'cow', 'diningtable', 'dog', 'horse', 'motorbike', 'person',
-        'pottedplant', 'sheep', 'sofa', 'train', 'tvmonitor'
+        '气孔', '夹渣', '焊瘤', '裂纹', '咬边', '未熔合', '未焊透', '烧穿',
+        '焊缝', '成型不良', '内凹', '异物', '伪缺陷'
     ]
-
+    
+#    return ['气孔','未熔合','未焊透']
+#    return [
+#        'holothurian','echinus','scallop','starfish'
+#    ]
 
 def imagenet_det_classes():
     return [

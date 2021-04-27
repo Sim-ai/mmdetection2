@@ -8,11 +8,14 @@ from .xml_style import XMLDataset
 @DATASETS.register_module()
 class VOCDataset(XMLDataset):
 
-    CLASSES = ('aeroplane', 'bicycle', 'bird', 'boat', 'bottle', 'bus', 'car',
-               'cat', 'chair', 'cow', 'diningtable', 'dog', 'horse',
-               'motorbike', 'person', 'pottedplant', 'sheep', 'sofa', 'train',
-               'tvmonitor')
-
+#     CLASSES = ('aeroplane', 'bicycle', 'bird', 'boat', 'bottle', 'bus', 'car',
+#                'cat', 'chair', 'cow', 'diningtable', 'dog', 'horse',
+#                'motorbike', 'person', 'pottedplant', 'sheep', 'sofa', 'train',
+#                'tvmonitor')
+    CLASSES = ('气孔', '夹渣', '焊瘤', '裂纹', '咬边', '未熔合', '未焊透', '烧穿',
+              '焊缝', '成型不良', '内凹', '异物', '伪缺陷')
+#    CLASSES = ('气孔','未熔合', '未焊透')
+#    CLASSES = ('holothurian','echinus','scallop','starfish')
     def __init__(self, **kwargs):
         super(VOCDataset, self).__init__(**kwargs)
         if 'VOC2007' in self.img_prefix:
@@ -50,8 +53,7 @@ class VOCDataset(XMLDataset):
         Returns:
             dict[str, float]: AP/recall metrics.
         """
-
-        if not isinstance(metric, str):
+        if not isinstance(metric, str): # isinstance判断metric是不是str类别
             assert len(metric) == 1
             metric = metric[0]
         allowed_metrics = ['mAP', 'recall']
